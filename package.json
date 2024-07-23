@@ -2,6 +2,10 @@
   "name": "skill_space_backend",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun run ts-node src/index.ts",
+    "build": "tsc"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/cors": "^2.8.17",
