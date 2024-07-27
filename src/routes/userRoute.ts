@@ -3,12 +3,12 @@ import { Request, Response, NextFunction } from "express";
 import { createUser, findUser, loginUser } from "../controllers/userController";
 const router = express.Router();
 
-router.use("/user", (req: Request, res: Response) => {
-  res.send("Welcome to the user API")
-});
-
 router.post("/create", createUser);
 router.get("/:id", findUser);
-router.get("/login", loginUser);
+router.post("/login", loginUser);
+
+router.use("/", (req: Request, res: Response) => {
+  res.json({ message: "User API" });
+});
 
 export default router;
