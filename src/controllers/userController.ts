@@ -22,7 +22,7 @@ export async function createUser(req: Request, res: Response) {
 
     await newUser.save();
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "User registered successfully", user: newUser });
   } catch (error) {
     res.status(500).json({ error: "Server error, failed to create a new user" });
   }
@@ -31,7 +31,7 @@ export async function createUser(req: Request, res: Response) {
 export async function findUser(req: Request, res: Response) {
   const { id } = req.body;
   try {
-    const foundUser = await User.findById({ id });
+    const foundUser = await User.findById(id);
     if (!foundUser) {
       return res.status(404).json({ message: "User not found" });
     }

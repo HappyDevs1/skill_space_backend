@@ -13,10 +13,9 @@ const ServiceSchema: Schema = new Schema({
   title: { type: String, required: true, },
   description: { type: String, required: true },
   price: { type: Number, required: true },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
   freelancer: { type: mongoose.Types.ObjectId, ref: "User", required: true },
-});
+},
+{ timestamps: true });
 
 ServiceSchema.pre<IService>("save", function(next) {
   this.updatedAt = new Date();

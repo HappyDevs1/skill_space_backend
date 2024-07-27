@@ -16,7 +16,8 @@ const applicationSchema = new Schema<IApplication>({
   portfolioLink: { type: String, required: false },
   applicationDate: { type: Date, default: Date.now },
   status: { type: String, enum: ["pending", "accepted", "rejected"], default: "pending" },
-});
+},
+{ timestamps: true });
 
 const Application = mongoose.model<IApplication>("Application", applicationSchema);
 
