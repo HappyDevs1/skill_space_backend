@@ -3,12 +3,14 @@ import type { Request, Response } from "express";
 import mongoose from 'mongoose';
 import { MONGODB_URL, PORT } from "./config";
 import cors from "cors";
+import route from "../src/routes/userRoute";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use(route)
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Setting up the server")
