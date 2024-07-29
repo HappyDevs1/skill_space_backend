@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import Service, { IService } from "../models/serviceModel";
 
 export async function createService(req: Request, res: Response) {
-  const { title, description, price} = req.body;
+  const { title, description, price, freelancer } = req.body;
   try {
-    const newService = await new Service({ title, description, price });
+    const newService = await new Service({ title, description, price, freelancer });
 
-    newService.save();
+    await newService.save();
     
-    return res.status(200).json({ message: "Service created successfully", service: newService });
+    res.status(201).json({ message: "Service created successfully", service: newService });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -25,7 +25,7 @@ export async function getAllServices(req: Request, res: Response) {
 }
 
 export async function getServiceById(req: Request, res: Response) {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
     const foundService = await Service.findById(id);
     if (!foundService) {
@@ -38,9 +38,11 @@ export async function getServiceById(req: Request, res: Response) {
 }
 
 export async function updateService(req: Request, res: Response) {
-  const { id, title, description, price } = req.body;
+  const { id } = req.params;
+  const { title, description, price } = req.body;
+
   try {
-    const updatedService = await Service.findByIdAndUpdate(id, { name, description, price });
+    const updatedService = await Service.findByIdAndUpdate(id, { title, description, price });
 
     if (!updatedService) {
       return res.status(404).json({ message: "Service not found" });

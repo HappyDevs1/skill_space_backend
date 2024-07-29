@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { MONGODB_URL, PORT } from "./config";
 import cors from "cors";
 import userRoute from "../src/routes/userRoute";
+import serviceRoute from "../src/routes/serviceRoute";
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/user", userRoute);
+app.use("/service", serviceRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Setting up the server")

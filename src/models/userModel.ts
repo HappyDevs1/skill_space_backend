@@ -1,6 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IUser extends Document {
+  id: string;
+  userId: string;
   name: string;
   email: string;
   password: string;
@@ -10,12 +12,14 @@ export interface IUser extends Document {
 }
 
 const UserSchema: Schema = new Schema({
+  userId: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, unique: true },
   role: { type: String, required: true, enum: ["client", "freelancer"]},
-},
-{ timestamps: true });
+  createdAt: { type: Date, default: Date.now},
+  updatedAt: { type: Date, default: Date.now}
+});
 
 const User = mongoose.model<IUser>("User", UserSchema);
 

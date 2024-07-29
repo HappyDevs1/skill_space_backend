@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User, { IUser } from "../models/userModel";
 import bcrypt from "bcrypt";
+import { Types } from "mongoose";
 
 export async function createUser(req: Request, res: Response) {
   const { name, email, password, role } = req.body;
@@ -29,7 +30,12 @@ export async function createUser(req: Request, res: Response) {
 }
 
 export async function findUser(req: Request, res: Response) {
-  const { id } = req.body;
+  const { id } = req.params;
+
+  if (!Types.ObjectId.isValid(id)) {
+    res.status(400).json({ message: "Invalid user ID format" });
+    return;
+  }
   try {
     const foundUser = await User.findById(id);
     if (!foundUser) {
