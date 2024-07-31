@@ -5,9 +5,9 @@ import { createService, getAllServices, updateService, getServiceById, deleteSer
 
 router.post("/create", createService);
 router.get("/services", getAllServices);
-router.put("/edit", updateService);
+router.put("/:id/edit", updateService);
 router.get("/:id", getServiceById);
-router.delete("/delete", deleteService);
+router.delete("/:id/delete", deleteService);
 
 router.use("/", (req: Request, res: Response) => {
   res.json({ message: "Service API" });
