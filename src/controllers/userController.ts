@@ -57,6 +57,23 @@ export async function findUser(req: Request, res: Response) {
   }
 }
 
+export async function editUser(req: Request, res: Response) {
+  const { id } = req.params;
+  const { name, email, password, role } = req.body;
+
+  try {
+    const editedUser = await User.findByIdAndUpdate(id, { name, email, password, role });
+
+    if (!editedUser) {
+      return res.status(404).json({ message: "User not found"});
+    }
+
+    res.status(200).json({ message: "User updated succesfully", user: editedUser });
+  } catch (error) {
+    res.status(500).json({ message: "Server error, failed to edit user" });
+  }
+}
+
 export async function loginUser(req: Request, res: Response) {
   const { email, password } = req.body;
 
