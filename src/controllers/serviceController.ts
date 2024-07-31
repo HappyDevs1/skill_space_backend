@@ -61,7 +61,7 @@ export async function updateService(req: Request, res: Response) {
 }
 
 export async function deleteService(req: Request, res: Response) {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
     const deletedService = await Service.findByIdAndDelete(id);
 

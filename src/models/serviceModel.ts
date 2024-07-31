@@ -19,10 +19,6 @@ const ServiceSchema: Schema = new Schema({
   freelancer: { type: mongoose.Types.ObjectId, ref: "User", required: true }
 });
 
-ServiceSchema.pre<IService>("save", function(next) {
-  this.updatedAt = new Date();
-});
-
 const Service = mongoose.model<IService>("Service", ServiceSchema);
 
 export default Service;
