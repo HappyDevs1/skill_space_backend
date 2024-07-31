@@ -25,6 +25,7 @@ export async function createUser(req: Request, res: Response) {
 
     res.status(201).json({ message: "User registered successfully", user: newUser });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Server error, failed to create a new user" });
   }
 }
@@ -70,6 +71,7 @@ export async function editUser(req: Request, res: Response) {
 
     res.status(200).json({ message: "User updated succesfully", user: editedUser });
   } catch (error) {
+
     res.status(500).json({ message: "Server error, failed to edit user" });
   }
 }
