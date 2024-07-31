@@ -10,7 +10,7 @@ export async function createService(req: Request, res: Response) {
     
     res.status(201).json({ message: "Service created successfully", service: newService });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error, failed to create a new service" });
   }
 }
 

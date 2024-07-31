@@ -29,6 +29,16 @@ export async function createUser(req: Request, res: Response) {
   }
 }
 
+export async function getUsers(req: Request, res: Response) {
+  try {
+    const foundUsers = await User.find();
+
+    res.status(200).json({ message: "Users found", users: foundUsers })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function findUser(req: Request, res: Response) {
   const { id } = req.params;
 
