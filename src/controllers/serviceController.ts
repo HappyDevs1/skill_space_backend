@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import Service, { IService } from "../models/serviceModel";
+import { Types } from "mongoose";
 
 export async function createService(req: Request, res: Response) {
-  const { title, description, price, freelancer } = req.body;
+  const { title, description, price } = req.body;
   try {
-    const newService = await new Service({ title, description, price, freelancer });
+    const newService = await new Service({ title, description, price });
 
     await newService.save();
     
@@ -26,6 +27,12 @@ export async function getAllServices(req: Request, res: Response) {
 
 export async function getServiceById(req: Request, res: Response) {
   const { id } = req.params;
+
+  if (!Types.ObjectId.isValid(id)) {
+    res.status(400).json({ message: "Invalid user ID format" });
+    return;
+  }
+  
   try {
     const foundService = await Service.findById(id);
     if (!foundService) {
