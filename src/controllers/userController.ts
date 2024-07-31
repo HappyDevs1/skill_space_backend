@@ -74,6 +74,21 @@ export async function editUser(req: Request, res: Response) {
   }
 }
 
+export async function deleteUser(req: Request, res: Response) {
+  const { id } = req.params;
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User deleted successfully"});
+  } catch (error) {
+    res.status(500).json({ message: "Server error"});
+  }
+}
+
 export async function loginUser(req: Request, res: Response) {
   const { email, password } = req.body;
 
