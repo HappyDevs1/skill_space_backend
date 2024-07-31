@@ -50,7 +50,7 @@ export async function getApplicationById(req: Request, res: Response) {
   }
 }
 
-export async function editingApplication(req: Request, res: Response) {
+export async function editApplication(req: Request, res: Response) {
   const { applicationId, applicationStatus} = req.body;
   try {
     if (req.body) {
