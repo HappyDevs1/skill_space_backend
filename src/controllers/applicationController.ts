@@ -75,13 +75,14 @@ export async function editApplication(req: Request, res: Response) {
 }
 
 export async function deleteApplication(req: Request, res: Response) {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
     const deletedApplication = await Application.findByIdAndDelete(id)
 
     if (!deletedApplication) {
       return res.status(404).json({ message: "Application not found" });
     }
+    res.status(200).json({ message: "Application deleted succesfully"});
   } catch (error) {
     res.status(500).json({ message: "Server error, failed to delete application" });
   }
