@@ -22,8 +22,8 @@ export async function getAllApplication(req: Request, res: Response) {
   try {
     const foundApplications = await Application.find();
 
-    if (foundApplications.length == 0) {
-      return res.status(204).json({ message: "Applications empty" });
+    if (!foundApplications) {
+      return res.status(404).json({ message: "No application found" });
     }
 
     res.status(200).json({ message: "Applications found", applications: foundApplications });
