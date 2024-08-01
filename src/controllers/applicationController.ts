@@ -33,10 +33,10 @@ export async function getAllApplication(req: Request, res: Response) {
 }
 
 export async function getApplicationById(req: Request, res: Response) {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
-    if (!req.body) {
-      return res.status(409).json({ message: "Field cannot be empty" });
+    if (!id) {
+      return res.status(409).json({ message: "Invalid Id" });
     }
 
     const foundApplication = await Application.findById(id);
