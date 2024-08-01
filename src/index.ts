@@ -5,6 +5,7 @@ import { MONGODB_URL, PORT } from "./config";
 import cors from "cors";
 import userRoute from "../src/routes/userRoute";
 import serviceRoute from "../src/routes/serviceRoute";
+import applicationRoute from "../src/routes/applicationRoute";
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use("/user", userRoute);
 app.use("/service", serviceRoute);
+app.use("/application", applicationRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Setting up the server")

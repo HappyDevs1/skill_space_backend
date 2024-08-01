@@ -12,3 +12,5 @@ router.delete("/:id/delete", deleteApplication);
 router.use("/" , (req: Request, res: Response) => {
   res.status(200).json({ message: "Application API" });
 });
+
+export default router;
