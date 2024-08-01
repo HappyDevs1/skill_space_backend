@@ -25,6 +25,7 @@ export async function getAllApplication(req: Request, res: Response) {
     if (foundApplications.length == 0) {
       return res.status(204).json({ message: "Applications empty" });
     }
+    
     res.status(200).json({ message: "Applications found", applications: foundApplications });
   } catch (error) {
     res.status(500).json({ message: "Server error, failed to fetched applications"});

@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IApplication extends Document {
+  _id: string;
   service: mongoose.Types.ObjectId;
   freelancer: mongoose.Types.ObjectId;
   coverLetter: string;
