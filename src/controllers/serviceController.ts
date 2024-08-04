@@ -48,6 +48,7 @@ export async function getServiceByFilter(req: Request, res: Response) {
   const { location, level, department } = req.body;
   try {
     const filteredService = await Service.find({ location, level, department })
+    res.status(200).json({ message: "Filtered service's found", services: filteredService });
   } catch (error) {
     res.status(500).json({ message: "Server error failed" });
   }
