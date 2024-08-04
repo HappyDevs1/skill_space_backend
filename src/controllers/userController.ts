@@ -2,9 +2,27 @@ import { Request, Response } from "express";
 import User, { IUser } from "../models/userModel";
 import bcrypt from "bcrypt";
 import { Types } from "mongoose";
+import path from "path";
+import { UploadedFile } from "express-fileupload";
 
 export async function createUser(req: Request, res: Response) {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, profilePicture: profilePictureFromBody } = req.body;
+  
+  let profilePicture = profilePictureFromBody || "https://example.com/default-profile-picture.jpg";
+
+  if (req.files && req.files.profilePicture) {
+    const file = req.files.profilePicture as UploadedFile;
+
+    const uploadPath = path.join(__dirname, '../uploads/', file.name);
+
+    file.mv(uploadPath, (error: any) => {
+      if (error) {
+        return res.status(500).send(error);
+      }
+    });
+
+    profilePicture = `/uploads/${file.name}`;
+  }
 
   try {
     if (!req.body) {
@@ -19,7 +37,7 @@ export async function createUser(req: Request, res: Response) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const newUser = new User({ name, email, password: hashedPassword, role });
+    const newUser = new User({ name, email, password: hashedPassword, role, profilePicture });
 
     await newUser.save();
 

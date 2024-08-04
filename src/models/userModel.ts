@@ -6,6 +6,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   role: "client" | "freelancer";
+  profilePicture: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -15,6 +16,10 @@ const UserSchema: Schema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, unique: true },
   role: { type: String, required: true, enum: ["client", "freelancer"]},
+  profilePicture: {
+    type: String,
+    default: "https://example.com/default-profile-picture.jpg"
+  },
   createdAt: { type: Date, default: Date.now},
   updatedAt: { type: Date, default: Date.now}
 });
