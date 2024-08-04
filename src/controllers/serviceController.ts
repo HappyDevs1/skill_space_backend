@@ -44,6 +44,15 @@ export async function getServiceById(req: Request, res: Response) {
   }
 }
 
+export async function getServiceByFilter(req: Request, res: Response) {
+  const { location, level, department } = req.body;
+  try {
+    const filteredService = await Service.find({ location, level, department })
+  } catch (error) {
+    res.status(500).json({ message: "Server error failed" });
+  }
+}
+
 export async function updateService(req: Request, res: Response) {
   const { id } = req.params;
   const { title, description, price } = req.body;
