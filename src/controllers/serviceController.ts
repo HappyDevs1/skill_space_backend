@@ -18,7 +18,7 @@ export async function createService(req: Request, res: Response) {
 
 export async function getAllServices(req: Request, res: Response) {
   try {
-    const foundService = await Service.find();
+    const foundService = await Service.find().populate("freelancer", "name profilePicture");
     
     return res.status(200).json({ message: "Service found", service: foundService });
   } catch (error) {
@@ -34,7 +34,7 @@ export async function getServiceById(req: Request, res: Response) {
     return;
   }
   try {
-    const foundService = await Service.findById(id);
+    const foundService = await Service.findById(id).populate("freelancer", "name ProfilePicture");
     if (!foundService) {
       return res.status(404).json({ message: "Service not found" });
     }
@@ -47,7 +47,7 @@ export async function getServiceById(req: Request, res: Response) {
 export async function getServiceByFilter(req: Request, res: Response) {
   const { location, level, department } = req.body;
   try {
-    const filteredService = await Service.find({ location, level, department })
+    const filteredService = await Service.find({ location, level, department }).populate("freelancer", "name profilePicture");
     res.status(200).json({ message: "Filtered service's found", services: filteredService });
   } catch (error) {
     res.status(500).json({ message: "Server error failed" });
@@ -56,7 +56,7 @@ export async function getServiceByFilter(req: Request, res: Response) {
 
 export async function getFeaturedServices(req: Request, res: Response) {
   try {
-    const featuredServices = await Service.find({ featured: true });
+    const featuredServices = await Service.find({ featured: true }).populate("freelancer", "name profilePicture");
 
     if (featuredServices.length === 0) {
       return res.status(404).json({ message: "No featured services were found" });
