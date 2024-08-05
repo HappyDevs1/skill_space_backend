@@ -54,6 +54,20 @@ export async function getServiceByFilter(req: Request, res: Response) {
   }
 }
 
+export async function getFeaturedServices(req: Request, res: Response) {
+  try {
+    const featuredServices = await Service.find({ featured: true });
+
+    if (featuredServices.length === 0) {
+      return res.status(404).json({ message: "No featured services were found" });
+    }
+    
+    res.status(200).json({ message: "Featured services found", services: featuredServices})
+  } catch (error) {
+    res.status(500).json({ message: "Server error, failed to fetch featured services" });
+  }
+}
+
 export async function updateService(req: Request, res: Response) {
   const { id } = req.params;
   const { title, description, price } = req.body;
