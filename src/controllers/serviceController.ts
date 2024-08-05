@@ -3,9 +3,9 @@ import Service, { IService } from "../models/serviceModel";
 import { Types } from "mongoose";
 
 export async function createService(req: Request, res: Response) {
-  const { title, description, price, freelancer } = req.body;
+  const { title, description, price, location, level, department, freelancer } = req.body;
   try {
-    const newService = await new Service({ title, description, price, freelancer });
+    const newService = await new Service({ title, description, price, location, level, department, freelancer });
 
     await newService.save();
     
