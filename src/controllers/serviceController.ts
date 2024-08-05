@@ -70,10 +70,10 @@ export async function getFeaturedServices(req: Request, res: Response) {
 
 export async function updateService(req: Request, res: Response) {
   const { id } = req.params;
-  const { title, description, price } = req.body;
+  const { title, description, price, location, level, department, featured } = req.body;
 
   try {
-    const updatedService = await Service.findByIdAndUpdate(id, { title, description, price });
+    const updatedService = await Service.findByIdAndUpdate(id, { title, description, price, location, level, department, featured });
 
     if (!updatedService) {
       return res.status(404).json({ message: "Service not found" });
