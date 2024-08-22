@@ -4,29 +4,29 @@ import bcrypt from "bcrypt";
 import { Types } from "mongoose";
 import path from "path";
 import { UploadedFile } from "express-fileupload";
+import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../config";
 
 export async function createUser(req: Request, res: Response) {
-  const { name, email, password, role, profilePicture: profilePictureFromBody } = req.body;
+  const { name, email, password, role } = req.body;
   
-  let profilePicture = profilePictureFromBody || "https://example.com/default-profile-picture.jpg";
-
-  if (req.files && req.files.profilePicture) {
-    const file = req.files.profilePicture as UploadedFile;
-
-    const uploadPath = path.join(__dirname, '../uploads/', file.name);
-
-    file.mv(uploadPath, (error: any) => {
-      if (error) {
-        return res.status(500).send(error);
-      }
-    });
-
-    profilePicture = `/uploads/${file.name}`;
-  }
+  let profilePicture = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
 
   try {
-    if (!req.body) {
-      return res.status(406).json({ message: "Fields cannot be empty" });
+    if (req.files && req.files.profilePicture) {
+      let file = req.files.profilePicture as UploadedFile;
+  
+      const uploadPath = path.join(__dirname, '../public/img', file.name);
+  
+      await file.mv(uploadPath, (error) => {
+        if (error) return res.status(500).send(error);
+      });
+  
+      profilePicture = `/img/${file.name}`;
+    }
+
+    if (!name || !email || !password || !role) {
+      return res.status(406).json({ message: "All fields are required" });
     }
 
     const existingUser = await User.findOne({ email });
@@ -41,7 +41,9 @@ export async function createUser(req: Request, res: Response) {
 
     await newUser.save();
 
-    res.status(201).json({ message: "User registered successfully", user: newUser });
+    const token = jwt.sign({ id: newUser._id }, JWT_SECRET , { expiresIn: "1h" });
+
+    res.status(201).json({ message: "User registered successfully", userToken: token, user: newUser });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Server error, failed to create a new user" });
@@ -128,7 +130,9 @@ export async function loginUser(req: Request, res: Response) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    res.status(200).json({ message: `Login successful, logged in as ${user}` });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
+
+    res.status(200).json({ message: `Login successful, logged in as ${user}`, loginToken: token });
   } catch (error) {
     res.status(500).json({ message: "Server error, failed to login user" });
   }
