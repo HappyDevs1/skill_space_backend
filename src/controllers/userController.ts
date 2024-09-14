@@ -45,6 +45,9 @@ export async function createUser(req: Request, res: Response) {
 
     res.status(201).json({ message: "User registered successfully", userToken: token, user: newUser });
   } catch (error) {
+    if (error) {
+      return res.status(400).json({ message: "User with this email already exists" });
+    }
     console.log(error);
     res.status(500).json({ error: "Server error, failed to create a new user" });
   }
