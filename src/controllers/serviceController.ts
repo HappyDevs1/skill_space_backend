@@ -68,21 +68,25 @@ export async function getServiceById(req: Request, res: Response) {
   }
 }
 
-export async function getServiceByFilter(req: Request, res: Response) {
-  const { location, level, department } = req.body;
+export const getServiceByFilter = async (req: Request, res: Response) => {
   try {
-    const filteredService = await Service.find({
-      location,
-      level,
-      department,
-    }).populate("freelancer", "name profilePicture");
-    res
-      .status(200)
-      .json({ message: "Filtered service's found", services: filteredService });
+    const { location, level, department } = req.query;
+
+    const filter: any = {
+      ...(location && { location }),
+      ...(level && { level }),
+      ...(department && { department })
+    };
+
+    const services = await Service.find(filter);
+    res.json(services);
   } catch (error) {
-    res.status(500).json({ message: "Server error failed" });
+    console.error("Error fetching filtered services", error);
+    res.status(500).json({ message: "Server error" });
   }
-}
+};
+
+
 
 export async function getFeaturedServices(req: Request, res: Response) {
   try {
@@ -109,23 +113,31 @@ export async function getFeaturedServices(req: Request, res: Response) {
 
 export async function updateService(req: Request, res: Response) {
   const { id } = req.params;
-  const { title, description, price, location, level, department, featured } =
-    req.body;
+  const { title, description, price, location, level, department, featured } = req.body;
+
+  if (!Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid service ID format" });
+  }
 
   try {
-    const updatedService = await Service.findByIdAndUpdate(id, {
-      title,
-      description,
-      price,
-      location,
-      level,
-      department,
-      featured,
-    });
+    const updatedService = await Service.findByIdAndUpdate(
+      id,
+      {
+        title,
+        description,
+        price,
+        location,
+        level,
+        department,
+        featured,
+      },
+      { new: true }
+    );
 
     if (!updatedService) {
       return res.status(404).json({ message: "Service not found" });
     }
+
     return res
       .status(200)
       .json({
@@ -133,9 +145,11 @@ export async function updateService(req: Request, res: Response) {
         service: updatedService,
       });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error(error);
+    res.status(500).json({ message: "Server error, failed to update service" });
   }
 }
+
 
 export async function deleteService(req: Request, res: Response) {
   const { id } = req.params;
