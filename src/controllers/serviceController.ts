@@ -70,15 +70,16 @@ export async function getServiceById(req: Request, res: Response) {
 
 export const getServiceByFilter = async (req: Request, res: Response) => {
   try {
-    const { location, level, department } = req.query;
+    const { title, location, level, department } = req.query;
 
     const filter: any = {
+      ...(title && { title: { $regex: new RegExp(title as string, 'i') } }),
       ...(location && { location }),
       ...(level && { level }),
       ...(department && { department })
     };
 
-    const services = await Service.find(filter);
+    const services = await Service.find(filter).populate("freelancer", "name profilePicture");
     res.json(services);
   } catch (error) {
     console.error("Error fetching filtered services", error);
