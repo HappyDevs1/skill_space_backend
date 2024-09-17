@@ -55,7 +55,7 @@ export async function getServiceById(req: Request, res: Response) {
   try {
     const foundService = await Service.findById(id).populate(
       "freelancer",
-      "name ProfilePicture"
+      "name profilePicture"
     );
     if (!foundService) {
       return res.status(404).json({ message: "Service not found" });
