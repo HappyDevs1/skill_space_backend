@@ -4,7 +4,9 @@ import { Types } from "mongoose";
 import { AuthRequest } from "../middleware/authMiddleware";
 
 export async function createService(req: AuthRequest, res: Response) {
-  const { title, description, price, location, level, department, freelancer } = req.body;
+  const { title, description, price, location, level, department } = req.body;
+  
+  const { freelancerId } = req.params;
 
   try {
     const newService = await new Service({
@@ -14,7 +16,7 @@ export async function createService(req: AuthRequest, res: Response) {
       location,
       level,
       department,
-      freelancer
+      freelancer: freelancerId
     });
 
     await newService.save();
