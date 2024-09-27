@@ -1,6 +1,7 @@
 import express from "express";
 import type { Request, Response } from "express";
 import fileUpload from "express-fileupload";
+// import multer from "multer";
 import mongoose from 'mongoose';
 import { MONGODB_URL, PORT } from "./config";
 import cors from "cors";
@@ -19,7 +20,7 @@ app.use("/user", userRoute);
 app.use("/service", serviceRoute);
 app.use("/application", applicationRoute);
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Setting up the server")

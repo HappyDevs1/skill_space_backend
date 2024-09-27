@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { IUser } from "./userModel";
 
 export interface IService extends Document {
   _id: string;
@@ -11,7 +12,7 @@ export interface IService extends Document {
   featured: boolean;
   createdAt: Date;
   updatedAt: Date;
-  freelance: mongoose.Types.ObjectId;
+  freelancer: mongoose.Types.ObjectId;
 }
 
 const ServiceSchema: Schema = new Schema({
