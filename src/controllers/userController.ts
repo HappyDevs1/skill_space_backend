@@ -81,6 +81,20 @@ export async function findUser(req: Request, res: Response) {
   }
 }
 
+export async function getFeaturedUser(req: Request, res: Response) {
+  try {
+    const featuredUser = await User.find({ featured: true });
+
+    if (!featuredUser) {
+      res.status(404).json({ message: "Featured user not found"});
+    }
+
+    res.status(200).json({ message: "User found", User: featuredUser})
+  } catch (error) {
+    res.status(500).json({ message: "Server error, failed to fetch user"});
+  }
+}
+
 export async function editUser(req: Request, res: Response) {
   const { id } = req.params;
   const { name, email, password, role } = req.body;
