@@ -37,7 +37,57 @@ export async function createCompany(req: Request, res: Response) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const newCompany = new Company({ name, email, password: hashedPassword, about, profilePicture });
+    const isFeatured = false;
+
+    const newCompany = new Company({ name, email, password: hashedPassword, about, featured: isFeatured, profilePicture });
+
+    await newCompany.save();
+
+    const token = jwt.sign({ id: newCompany._id }, JWT_SECRET , { expiresIn: "1h" });
+
+    res.status(201).json({ message: "Company registered successfully", companyToken: token, company: newCompany });
+  } catch (error) {
+    if (error) {
+      return res.status(400).json({ message: "Company with this email already exists" });
+    }
+    console.log(error);
+    res.status(500).json({ message: "Server error, failed to create a new company", error });
+  }
+}
+
+export async function createFeaturedCompany(req: Request, res: Response) {
+  const { name, email, password, about } = req.body;
+  
+  let profilePicture = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
+
+  try {
+    if (req.files && req.files.profilePicture) {
+      let file = req.files.profilePicture as UploadedFile;
+  
+      const uploadPath = path.join(__dirname, '../public/img', file.name);
+  
+      await file.mv(uploadPath, (error) => {
+        if (error) return res.status(500).send(error);
+      });
+  
+      profilePicture = `/img/${file.name}`;
+    }
+
+    if (!name || !email || !password || !about) {
+      return res.status(406).json({ message: "All fields are required" });
+    }
+
+    const existingCompany = await Company.findOne({ email });
+
+    if (existingCompany) {
+      return res.status(409).json({ message: "Company already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const isFeatured = true;
+
+    const newCompany = new Company({ name, email, password: hashedPassword, about, featured: isFeatured, profilePicture });
 
     await newCompany.save();
 
