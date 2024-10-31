@@ -9,6 +9,7 @@ import path from "path";
 import userRoute from "../src/routes/userRoute";
 import serviceRoute from "../src/routes/serviceRoute";
 import applicationRoute from "../src/routes/applicationRoute";
+import companyRoute from "../src/routes/companyRoute";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(fileUpload());
 app.use("/user", userRoute);
 app.use("/service", serviceRoute);
 app.use("/application", applicationRoute);
+app.use("/company", companyRoute);
 
 app.use(express.static(path.join(__dirname, "public")));
 
