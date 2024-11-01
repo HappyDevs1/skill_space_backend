@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config";
 
 export async function createUser(req: Request, res: Response) {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, about } = req.body;
   
   let profilePicture = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
 
@@ -25,7 +25,7 @@ export async function createUser(req: Request, res: Response) {
       profilePicture = `/img/${file.name}`;
     }
 
-    if (!name || !email || !password || !role) {
+    if (!name || !email || !password || !about) {
       return res.status(406).json({ message: "All fields are required" });
     }
 
@@ -37,7 +37,7 @@ export async function createUser(req: Request, res: Response) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const newUser = new User({ name, email, password: hashedPassword, role, profilePicture });
+    const newUser = new User({ name, email, password: hashedPassword, about, profilePicture });
 
     await newUser.save();
 
@@ -78,20 +78,6 @@ export async function findUser(req: Request, res: Response) {
     return res.status(200).json({ message: "User found", user: foundUser } )
   } catch (error) {
     res.status(500).json({ message: "Server error, failed to fetch user" });
-  }
-}
-
-export async function getFeaturedUser(req: Request, res: Response) {
-  try {
-    const featuredUser = await User.find({ featured: true });
-
-    if (!featuredUser) {
-      res.status(404).json({ message: "Featured user not found"});
-    }
-
-    res.status(200).json({ message: "User found", User: featuredUser})
-  } catch (error) {
-    res.status(500).json({ message: "Server error, failed to fetch user"});
   }
 }
 
