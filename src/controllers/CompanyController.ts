@@ -198,7 +198,7 @@ export async function loginCompany(req: Request, res: Response) {
 
     const token = jwt.sign({ id: company._id }, JWT_SECRET, { expiresIn: "1h" });
 
-    const redirectUrl = `/profile/${company._id}`;
+    const redirectUrl = `/profile/company/${company._id}`;
 
     res.status(200).json({ message: `Login successful, logged in as ${company}`, loginToken: token, redirectUrl: redirectUrl });
   } catch (error) {
