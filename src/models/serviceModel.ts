@@ -25,7 +25,7 @@ const ServiceSchema: Schema = new Schema({
   featured: { type: Boolean, required: true, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  freelancer: { type: mongoose.Types.ObjectId, ref: "User", required: true }
+  freelancer: { type: mongoose.Types.ObjectId, ref: "Company", required: true }
 });
 
 const Service = mongoose.model<IService>("Service", ServiceSchema);

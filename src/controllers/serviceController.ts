@@ -6,7 +6,7 @@ import { AuthRequest } from "../middleware/authMiddleware";
 export async function createService(req: AuthRequest, res: Response) {
   const { title, description, price, location, level, department } = req.body;
   
-  const { freelancerId } = req.params;
+  const { companyId } = req.params;
 
   try {
     const newService = await new Service({
@@ -16,7 +16,7 @@ export async function createService(req: AuthRequest, res: Response) {
       location,
       level,
       department,
-      freelancer: freelancerId
+      company: companyId,
     });
 
     await newService.save();
@@ -35,8 +35,8 @@ export async function createService(req: AuthRequest, res: Response) {
 export async function getAllServices(req: Request, res: Response) {
   try {
     const foundService = await Service.find().populate(
-      "freelancer",
-      "name profilePicture"
+      "company",
+      "name about profilePicture"
     );
 
     return res
@@ -56,8 +56,8 @@ export async function getServiceById(req: Request, res: Response) {
   }
   try {
     const foundService = await Service.findById(id).populate(
-      "freelancer",
-      "name profilePicture"
+      "company",
+      "name about profilePicture"
     );
     if (!foundService) {
       return res.status(404).json({ message: "Service not found" });
@@ -81,7 +81,7 @@ export const getServiceByFilter = async (req: Request, res: Response) => {
       ...(department && { department })
     };
 
-    const services = await Service.find(filter).populate("freelancer", "name profilePicture");
+    const services = await Service.find(filter).populate("company", "name about profilePicture");
     res.json(services);
   } catch (error) {
     console.error("Error fetching filtered services", error);
@@ -94,8 +94,8 @@ export const getServiceByFilter = async (req: Request, res: Response) => {
 export async function getFeaturedServices(req: Request, res: Response) {
   try {
     const featuredServices = await Service.find({ featured: true }).populate(
-      "freelancer",
-      "name profilePicture"
+      "company",
+      "name about profilePicture"
     );
 
     if (featuredServices.length === 0) {
