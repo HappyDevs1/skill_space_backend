@@ -4,7 +4,7 @@ const router = express.Router();
 import { createService, getAllServices, updateService, getServiceById, deleteService, getServiceByFilter, getFeaturedServices } from "../controllers/serviceController";
 import { authenticateMiddleware } from "../middleware/authMiddleware";
 
-router.post("/:freelancerId/create", authenticateMiddleware, createService);
+router.post("/:companyId/create", createService);
 router.get("/services", getAllServices);
 router.get("/filter", getServiceByFilter);
 router.get("/featured", getFeaturedServices);

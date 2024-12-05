@@ -139,10 +139,11 @@ export async function getFeaturedCompany(req: Request, res: Response) {
       res.status(404).json({ message: "No featured company found"});
     }
 
-    res.status(200).json({ message: "Featued companies's found", company: featuredCompany})
+    res.status(200).json({ message: "Featured companies's found", company: featuredCompany})
   } catch (error) {
     res.status(500).json({ message: "Server error, failed to fetch company", error });
   }
+  
 }
 
 export async function editCompany(req: Request, res: Response) {

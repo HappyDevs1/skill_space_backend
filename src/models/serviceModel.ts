@@ -9,10 +9,9 @@ export interface IService extends Document {
   location: "Gauteng" | "Eastern-Cape" | "Mpumalanga" | "Free-State" | "Limpopo" | "North-West" | "Nothern-Cape" | "Western-Cape" | "KwaZulu-Natal" | "Remote";
   level: "Internship" | "Junior" | "Mid-level" | "Senior";
   department: "Finance" | "Technology" | "Healthcare" | "Real-estate" | "Construction";
-  featured: boolean;
+  company: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
-  freelancer: mongoose.Types.ObjectId;
 }
 
 const ServiceSchema: Schema = new Schema({
@@ -22,10 +21,9 @@ const ServiceSchema: Schema = new Schema({
   location: { type: String, required: true, enum: ["Gauteng", "Eastern-Cape", "Mpumalanga", "Free-State", "Limpopo", "North-West", "Nothern-Cape", "Western-Cape", "KwaZulu-Natal", "Remote"] },
   level: { type: String, required: true, enum: ["Internship", "Junior", "Mid-level", "Senior"]},
   department: { type: String, required: true, enum: ["Finance", "Technology", "Healthcare", "Real-estate", "Construction"]},
-  featured: { type: Boolean, required: true, default: false },
+  company: { type: mongoose.Types.ObjectId, ref: "Company", required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  freelancer: { type: mongoose.Types.ObjectId, ref: "Company", required: true }
 });
 
 const Service = mongoose.model<IService>("Service", ServiceSchema);
