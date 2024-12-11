@@ -2,6 +2,10 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface IApplication extends Document {
   _id: string;
+  name: string;
+  email: string;
+  phone: number;
+  about: string;
   service: mongoose.Types.ObjectId;
   freelancer: mongoose.Types.ObjectId;
   coverLetter: string;
@@ -11,6 +15,10 @@ export interface IApplication extends Document {
 }
 
 const applicationSchema = new Schema<IApplication>({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: Number, required: true },
+  about: { type: String, required: true },
   service: { type: Schema.Types.ObjectId, ref: "Service", required: true },
   freelancer: { type: Schema.Types.ObjectId, ref: "User", required: true },
   coverLetter: { type: String, required: true },
