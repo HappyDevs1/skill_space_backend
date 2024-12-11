@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel";
+import Company from "../models/companyModel";
 import { JWT_SECRET } from "../config";
 
 export interface AuthRequest extends Request {
@@ -16,7 +17,7 @@ export const authenticateMiddleware = async (req: AuthRequest, res: Response, ne
 
   try {
     const decoded: any = jwt.verify(token, JWT_SECRET as string);
-    const freelancer = await User.findById(decoded.id);
+    const freelancer = await User.findById(decoded.id) || Company.findById(decoded.id);
 
     if (!freelancer) {
       return res.status(404).json({ message: "freelancer not found" });
