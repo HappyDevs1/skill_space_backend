@@ -8,6 +8,7 @@ export interface IApplication extends Document {
   about: string;
   service: mongoose.Types.ObjectId;
   freelancer: mongoose.Types.ObjectId;
+  Cv: string;
   coverLetter: string;
   portfolioLink: string;
   applicationDate: Date;
@@ -21,6 +22,7 @@ const applicationSchema = new Schema<IApplication>({
   about: { type: String, required: true },
   service: { type: Schema.Types.ObjectId, ref: "Service", required: true },
   freelancer: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  Cv: {type: String, required: true},
   coverLetter: { type: String, required: true },
   portfolioLink: { type: String, required: true },
   applicationDate: { type: Date, default: Date.now },
