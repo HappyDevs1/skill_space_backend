@@ -6,27 +6,25 @@ export interface IApplication extends Document {
   email: string;
   phone: number;
   about: string;
+  cv: string;
+  portfolio: string;
   service: mongoose.Types.ObjectId;
-  freelancer: mongoose.Types.ObjectId;
-  Cv: string;
-  coverLetter: string;
-  portfolioLink: string;
-  applicationDate: Date;
+  // coverLetter: string;
   status: "pending" | "accepted" | "rejected";
+  applicationDate: Date;
 }
 
 const applicationSchema = new Schema<IApplication>({
+  service: { type: Schema.Types.ObjectId, ref: "Service", required: true },
   name: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: Number, required: true },
   about: { type: String, required: true },
-  service: { type: Schema.Types.ObjectId, ref: "Service", required: true },
-  freelancer: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  Cv: {type: String, required: true},
-  coverLetter: { type: String, required: true },
-  portfolioLink: { type: String, required: true },
-  applicationDate: { type: Date, default: Date.now },
+  cv: {type: String, required: true},
+  portfolio: { type: String, required: true },
+  // coverLetter: { type: String, required: true },
   status: { type: String, enum: ["pending", "accepted", "rejected"], default: "pending" },
+  applicationDate: { type: Date, default: Date.now },
 },
 { timestamps: true });
 
