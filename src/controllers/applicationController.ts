@@ -1,22 +1,68 @@
 import { Request, Response } from "express";
+import multer from "multer";
 import Application, { IApplication } from "../models/applicationModel";
+import User from "../models/userModel";
 
-export async function createApplication(req: Request, res: Response) {
-  const { service, freelancer, coverLetter, portfolioLink } = req.body;
+// export async function createApplication(req: Request, res: Response) {
+//   const { name, email, phone, about, portfolio } = req.body;
+//   // const { service } = req.params;
+
+//   try {
+//     // Validate required fields
+//     if (!name || !email || !phone || !about || !portfolio) {
+//       return res.status(400).json({ message: "Missing required fields" });
+//     }
+
+//     // Check if the file was uploaded
+//     if (!req.file) {
+//       return res.status(400).json({ message: "CV file is required" });
+//     }
+
+//     // Create the application
+//     const createdApplication = new Application({
+//       name,
+//       email,
+//       phone,
+//       about,
+//       cv: req.file.filename,
+//       portfolio,
+//       // service,
+//     });
+
+//     await createdApplication.save();
+
+//     return res
+//       .status(201)
+//       .json({ message: "Application created successfully", application: createdApplication });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error, failed to submit application" });
+//   }
+// }
+
+export const createApplication = (req: Request, res: Response) => {
+  const { name, email, phone, about, portfolio } = req.body;
   try {
-    if (!service || !freelancer || !coverLetter || !portfolioLink) {
-      return res.status(400).json({ message: "Missing required fields" });
+    if (!req.file) {
+      res.status(400).send({
+        message: "No file uploaded",
+      });
+    } else {
+      const newApplicant = Application.create({ name, email, phone, about, cv: req.file.filename, portfolio})
+
+      console.log(newApplicant);
+      res.status(200).send({ message: "Application sent out" })
     }
-
-    const createdApplication = await new Application({service, freelancer, coverLetter, portfolioLink});
-
-    createdApplication.save();
-
-    return res.status(201).json({message: "Application created successfully", application: createdApplication });
   } catch (error) {
-    res.status(400).json({ message: "Server error, failed to submit application"});
+    console.error("Error during file upload:", error);
+    res.status(500).send({
+      message: "Internal server error",
+      error,
+    });
   }
-}
+};
+
+
 
 export async function getAllApplication(req: Request, res: Response) {
   try {
