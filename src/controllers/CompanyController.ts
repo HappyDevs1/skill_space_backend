@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Company, { ICompany } from "../models/companyModel";
+import Service, { IService } from "../models/serviceModel";
 import bcrypt from "bcrypt";
 import { Types } from "mongoose";
 import path from "path";
@@ -10,19 +11,11 @@ import { JWT_SECRET } from "../config";
 export async function createCompany(req: Request, res: Response) {
   const { name, email, password, about } = req.body;
   
-  let profilePicture = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
+  let profilePicture: any = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
 
   try {
-    if (req.files && req.files.profilePicture) {
-      let file = req.files.profilePicture as UploadedFile;
-  
-      const uploadPath = path.join(__dirname, '../public/img', file.name);
-  
-      await file.mv(uploadPath, (error) => {
-        if (error) return res.status(500).send(error);
-      });
-  
-      profilePicture = `/img/${file.name}`;
+    if (req.files) {
+      profilePicture = req.files;
     }
 
     if (!name || !email || !password || !about) {
@@ -58,19 +51,11 @@ export async function createCompany(req: Request, res: Response) {
 export async function createFeaturedCompany(req: Request, res: Response) {
   const { name, email, password, about } = req.body;
   
-  let profilePicture = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
+  let profilePicture: any = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
 
   try {
-    if (req.files && req.files.profilePicture) {
-      let file = req.files.profilePicture as UploadedFile;
-  
-      const uploadPath = path.join(__dirname, '../public/img', file.name);
-  
-      await file.mv(uploadPath, (error) => {
-        if (error) return res.status(500).send(error);
-      });
-  
-      profilePicture = `/img/${file.name}`;
+    if (req.files) {
+      profilePicture = req.files;
     }
 
     if (!name || !email || !password || !about) {
@@ -105,7 +90,7 @@ export async function createFeaturedCompany(req: Request, res: Response) {
 
 export async function getCompany(req: Request, res: Response) {
   try {
-    const foundCompanies = await Company.find();
+    const foundCompanies = await Company.find().populate("services");
 
     res.status(200).json({ message: "Companies found", company: foundCompanies })
   } catch (error) {
@@ -121,7 +106,7 @@ export async function findCompany(req: Request, res: Response) {
     return;
   }
   try {
-    const foundCompany = await Company.findById(id);
+    const foundCompany = await Company.findById(id).populate("services");
     if (!foundCompany) {
       return res.status(404).json({ message: "Company not found" });
     }
