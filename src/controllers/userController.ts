@@ -3,7 +3,6 @@ import User, { IUser } from "../models/userModel";
 import bcrypt from "bcrypt";
 import { Types } from "mongoose";
 import path from "path";
-import { UploadedFile } from "express-fileupload";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config";
 
