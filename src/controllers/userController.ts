@@ -9,20 +9,12 @@ import { JWT_SECRET } from "../config";
 
 export async function createUser(req: Request, res: Response) {
   const { name, email, password, about } = req.body;
-  
-  let profilePicture = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
+
+  let profilePicture: any = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
 
   try {
-    if (req.files && req.files.profilePicture) {
-      let file = req.files.profilePicture as UploadedFile;
-  
-      const uploadPath = path.join(__dirname, '../public/img', file.name);
-  
-      await file.mv(uploadPath, (error) => {
-        if (error) return res.status(500).send(error);
-      });
-  
-      profilePicture = `/img/${file.name}`;
+    if (req.file) {
+      profilePicture = req.file;
     }
 
     if (!name || !email || !password || !about) {
@@ -41,13 +33,10 @@ export async function createUser(req: Request, res: Response) {
 
     await newUser.save();
 
-    const token = jwt.sign({ id: newUser._id }, JWT_SECRET , { expiresIn: "1h" });
+    const token = jwt.sign({ id: newUser._id }, JWT_SECRET, { expiresIn: "1h" });
 
     res.status(201).json({ message: "User registered successfully", userToken: token, user: newUser });
   } catch (error) {
-    if (error) {
-      return res.status(400).json({ message: "User with this email already exists" });
-    }
     console.log(error);
     res.status(500).json({ error: "Server error, failed to create a new user" });
   }
