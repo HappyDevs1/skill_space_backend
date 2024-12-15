@@ -1,11 +1,10 @@
 import express from "express";
-import type { Request, Response } from "express";
-import fileUpload from "express-fileupload";
-// import multer from "multer";
-import mongoose from 'mongoose';
-import { MONGODB_URL, PORT } from "./config";
+import mongoose from "mongoose";
+import multer from "multer";
 import cors from "cors";
 import path from "path";
+import fs from "fs";
+import { MONGODB_URL, PORT } from "./config";
 import userRoute from "../src/routes/userRoute";
 import serviceRoute from "../src/routes/serviceRoute";
 import applicationRoute from "../src/routes/applicationRoute";
@@ -13,28 +12,28 @@ import companyRoute from "../src/routes/companyRoute";
 
 const app = express();
 
-app.use(cors());
+// Middleware
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
-app.use(fileUpload());
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/user", userRoute);
 app.use("/service", serviceRoute);
 app.use("/application", applicationRoute);
 app.use("/company", companyRoute);
 
-app.use(express.static(path.join(__dirname, "public")));
+app.get("/", (req, res) => {
+  res.status(200).send("Server is running");
+});
 
-app.get("/", (req: Request, res: Response) => {
-  res.status(200).send("Setting up the server")
-})
-
-mongoose.connect(MONGODB_URL)
-.then(() => {
-  console.log("connected to MongoDB successfully")
-  app.listen(PORT, () => {
-    console.log(`The server is listening on port ${PORT}`)
+mongoose
+  .connect(MONGODB_URL)
+  .then(() => {
+    console.log("Connected to MongoDB successfully");
+    app.listen(PORT, () => {
+      console.log(`The server is listening on port ${PORT}`);
+    });
   })
-})
-.catch((error) => {
-  console.log("Failed to run the server", error);
-})
+  .catch((error) => {
+    console.log("Failed to run the server", error);
+  });
