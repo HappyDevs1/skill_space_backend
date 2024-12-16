@@ -2,13 +2,13 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface IApplication extends Document {
   _id: string;
+  service: mongoose.Types.ObjectId;
   name: string;
   email: string;
-  phone: number;
+  phone: string;
   about: string;
   cv: string;
   portfolio: string;
-  service: mongoose.Types.ObjectId;
   // coverLetter: string;
   status: "pending" | "accepted" | "rejected";
   applicationDate: Date;
@@ -18,7 +18,7 @@ const applicationSchema = new Schema<IApplication>({
   service: { type: Schema.Types.ObjectId, ref: "Service", required: true },
   name: { type: String, required: true },
   email: { type: String, required: true },
-  phone: { type: Number, required: true },
+  phone: { type: String, required: true },
   about: { type: String, required: true },
   cv: {type: String, required: true},
   portfolio: { type: String, required: true },

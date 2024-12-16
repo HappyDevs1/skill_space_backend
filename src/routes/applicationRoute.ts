@@ -7,14 +7,14 @@ import path from "path";
 import fs from "fs";
 
 // Ensure "public/img" directory exists
-if (!fs.existsSync("public/img")) {
-  fs.mkdirSync("public/img", { recursive: true });
+if (!fs.existsSync("public/doc")) {
+  fs.mkdirSync("public/doc", { recursive: true });
 }
 
 // Multer configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/img");
+    cb(null, "public/doc");
   },
   filename: (req, file, cb) => {
     cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
@@ -23,15 +23,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/upload", upload.single("file"), createApplication );
 // router.post("/create", upload.single("file"), createApplication);
 router.get("/applications", getAllApplication);
+router.post("/:id/upload", upload.single("file"), createApplication );
 router.get("/:id", getApplicationById);
 router.put("/:id/edit", editApplication);
 router.delete("/:id/delete", deleteApplication);
 
 router.use("*" , (req: Request, res: Response) => {
-  res.status(200).json({ message: "Application API" });
+  res.status(404).json({ message: "Route not found" });
 });
 
 export default router;

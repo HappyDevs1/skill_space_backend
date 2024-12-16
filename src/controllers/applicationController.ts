@@ -40,16 +40,25 @@ import User from "../models/userModel";
 //   }
 // }
 
-export const createApplication = (req: Request, res: Response) => {
+export const createApplication = async (req: Request, res: Response) => {
   const { name, email, phone, about, portfolio } = req.body;
-  const { service } = req.params;
+  const { id } = req.params;
   try {
     if (!req.file) {
       res.status(400).send({
         message: "No file uploaded",
       });
     } else {
-      const newApplicant = Application.create({ service, name, email, phone, about, cv: req.file.filename, portfolio})
+      const newApplicant = await Application.create({
+        service: id,
+        name,
+        email,
+        phone,
+        about,
+        cv: req.file.filename,
+        portfolio,
+      });
+      
 
       console.log(newApplicant);
       res.status(200).send({ message: "Application sent out" })
