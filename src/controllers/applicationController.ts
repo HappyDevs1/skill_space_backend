@@ -42,13 +42,14 @@ import User from "../models/userModel";
 
 export const createApplication = (req: Request, res: Response) => {
   const { name, email, phone, about, portfolio } = req.body;
+  const { service } = req.params;
   try {
     if (!req.file) {
       res.status(400).send({
         message: "No file uploaded",
       });
     } else {
-      const newApplicant = Application.create({ name, email, phone, about, cv: req.file.filename, portfolio})
+      const newApplicant = Application.create({ service, name, email, phone, about, cv: req.file.filename, portfolio})
 
       console.log(newApplicant);
       res.status(200).send({ message: "Application sent out" })
