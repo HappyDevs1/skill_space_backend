@@ -71,21 +71,33 @@ export async function findUser(req: Request, res: Response) {
 
 export async function editUser(req: Request, res: Response) {
   const { id } = req.params;
-  const { name, email, password, role } = req.body;
+  const updateFields = req.body; // Contains dynamic fields to update
 
   try {
-    const editedUser = await User.findByIdAndUpdate(id, { name, email, password, role });
+    // Use `findByIdAndUpdate` with `$set` and `{ new: true }`
+    const editedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: updateFields }, // Dynamically updates only the provided fields
+      { new: true } // Returns the updated document
+    );
 
     if (!editedUser) {
-      return res.status(404).json({ message: "User not found"});
+      return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json({ message: "User updated succesfully", user: editedUser });
+    res.status(200).json({
+      message: "User updated successfully",
+      company: editedUser, // Returns the entire updated document
+    });
   } catch (error) {
-
-    res.status(500).json({ message: "Server error, failed to edit user" });
+    console.error("Error updating user:", error);
+    res.status(500).json({
+      message: "Server error, failed to edit user",
+      error,
+    });
   }
 }
+
 
 export async function deleteUser(req: Request, res: Response) {
   const { id } = req.params;
@@ -125,7 +137,7 @@ export async function loginUser(req: Request, res: Response) {
 
     const redirectUrl = `/profile/user/${user._id}`;
 
-    res.status(200).json({ message: `Login successful, logged in as ${user}`, loginToken: token, redirectUrl: redirectUrl });
+    res.status(200).json({ message: `Login successful`, loginToken: token, loggedUser: user, redirectUrl: redirectUrl });
   } catch (error) {
     res.status(500).json({ message: "Server error, failed to login user" });
   }
