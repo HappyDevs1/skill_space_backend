@@ -133,20 +133,33 @@ export async function getFeaturedCompany(req: Request, res: Response) {
 
 export async function editCompany(req: Request, res: Response) {
   const { id } = req.params;
-  const { name, email, password, about } = req.body;
+  const updateFields = req.body; // Contains dynamic fields to update
 
   try {
-    const editedCompany = await Company.findByIdAndUpdate(id, { name, email, password, about });
+    // Use `findByIdAndUpdate` with `$set` and `{ new: true }`
+    const editedCompany = await Company.findByIdAndUpdate(
+      id,
+      { $set: updateFields }, // Dynamically updates only the provided fields
+      { new: true } // Returns the updated document
+    );
 
     if (!editedCompany) {
-      return res.status(404).json({ message: "Company not found"});
+      return res.status(404).json({ message: "Company not found" });
     }
 
-    res.status(200).json({ message: "Company updated succesfully", company: editedCompany });
+    res.status(200).json({
+      message: "Company updated successfully",
+      company: editedCompany, // Returns the entire updated document
+    });
   } catch (error) {
-    res.status(500).json({ message: "Server error, failed to edit company", error });
+    console.error("Error updating company:", error);
+    res.status(500).json({
+      message: "Server error, failed to edit company",
+      error,
+    });
   }
 }
+
 
 export async function deleteCompany(req: Request, res: Response) {
   const { id } = req.params;
