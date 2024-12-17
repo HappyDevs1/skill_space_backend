@@ -199,7 +199,7 @@ export async function loginCompany(req: Request, res: Response) {
 
     const redirectUrl = `/profile/company/${company._id}`;
 
-    res.status(200).json({ message: `Login successful`, loginToken: token, loggedCompany: company,  redirectUrl: redirectUrl });
+    res.status(200).json({ message: `Login successful`, loginToken: token, loggedCompany: company._id,  redirectUrl: redirectUrl });
   } catch (error) {
     res.status(500).json({ message: "Server error, failed to login company", error });
   }
