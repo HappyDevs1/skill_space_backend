@@ -106,7 +106,7 @@ export async function getApplicationById(req: Request, res: Response) {
   }
 }
 
-export async function donwnloadCv(req: Request, res: Response) {
+export async function downloadCv(req: Request, res: Response) {
   try {
     const { id } = req.params;
 
