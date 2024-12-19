@@ -1,7 +1,7 @@
 import express from "express";
 import { Request, Response } from "express";
 const router = express.Router();
-import { getAllApplication, getApplicationById, editApplication, deleteApplication, createApplication } from "../controllers/applicationController";
+import { getAllApplication, getApplicationById, editApplication, deleteApplication, createApplication, downloadCv } from "../controllers/applicationController";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -26,6 +26,7 @@ const upload = multer({ storage: storage });
 // router.post("/create", upload.single("file"), createApplication);
 router.get("/applications", getAllApplication);
 router.post("/:id/upload", upload.single("file"), createApplication );
+router.get("/:id/download/cv", downloadCv);
 router.get("/:id", getApplicationById);
 router.put("/:id/edit", editApplication);
 router.delete("/:id/delete", deleteApplication);
