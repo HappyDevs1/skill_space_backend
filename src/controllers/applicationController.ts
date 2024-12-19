@@ -100,10 +100,30 @@ export async function getApplicationById(req: Request, res: Response) {
     if (!foundApplication) {
       return res.status(404).json({ message: "Failed to fetch application by id" });
     }
-
     return res.status(200).json({ message: "Successfully fetched application by id", application: foundApplication });
   } catch (error) {
     res.status(500).json({ message: "Server error, failed to fetch application by id" });
+  }
+}
+
+export async function donwnloadCv(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+
+    const foundApplication = await Application.findById(id);
+
+    if (!foundApplication || !foundApplication.cv) {
+      return res.status(404).json({ message: "Cv not found" });
+    }
+
+    res.download(foundApplication.cv, (err) => {
+      if (err) {
+        console.error("Error while downloading file: ", err);
+        res.status(500).json({ message: "Failed to download file" });
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 }
 
