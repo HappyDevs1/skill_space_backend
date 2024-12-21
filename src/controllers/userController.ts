@@ -137,7 +137,7 @@ export async function loginUser(req: Request, res: Response) {
 
     const redirectUrl = `/profile/user/${user._id}`;
 
-    res.status(200).json({ message: `Login successful`, loginToken: token, loggedUser: user, redirectUrl: redirectUrl });
+    res.status(200).json({ message: `Login successful`, loginToken: token, loggedUser: user._id, redirectUrl: redirectUrl });
   } catch (error) {
     res.status(500).json({ message: "Server error, failed to login user" });
   }
