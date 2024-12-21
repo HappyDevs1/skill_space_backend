@@ -9,6 +9,7 @@ export interface IApplication extends Document {
   about: string;
   cv: string;
   portfolio: string;
+  user: string;
   // coverLetter: string;
   status: "pending" | "accepted" | "rejected";
   applicationDate: Date;
@@ -22,6 +23,7 @@ const applicationSchema = new Schema<IApplication>({
   about: { type: String, required: true },
   cv: {type: String, required: true},
   portfolio: { type: String, required: true },
+  user: { type: String, required: true },
   // coverLetter: { type: String, required: true },
   status: { type: String, enum: ["pending", "accepted", "rejected"], default: "pending" },
   applicationDate: { type: Date, default: Date.now },
