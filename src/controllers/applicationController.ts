@@ -41,7 +41,7 @@ import User from "../models/userModel";
 // }
 
 export const createApplication = async (req: Request, res: Response) => {
-  const { name, email, phone, about, portfolio } = req.body;
+  const { name, email, phone, about, portfolio, user } = req.body;
   const { id } = req.params;
   try {
     if (!req.file) {
@@ -57,6 +57,7 @@ export const createApplication = async (req: Request, res: Response) => {
         about,
         cv: req.file.filename,
         portfolio,
+        user,
       });
       
 
