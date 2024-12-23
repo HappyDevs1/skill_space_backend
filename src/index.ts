@@ -9,6 +9,7 @@ import userRoute from "../src/routes/userRoute";
 import serviceRoute from "../src/routes/serviceRoute";
 import applicationRoute from "../src/routes/applicationRoute";
 import companyRoute from "../src/routes/companyRoute";
+import blogRoute from "../src/routes/blogRoute";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/user", userRoute);
 app.use("/service", serviceRoute);
 app.use("/application", applicationRoute);
 app.use("/company", companyRoute);
+app.use("/blog", blogRoute);
 
 app.get("/", (req, res) => {
   res.status(200).send("Server is running");
