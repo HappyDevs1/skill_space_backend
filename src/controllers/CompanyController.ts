@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config";
 
 export async function createCompany(req: Request, res: Response) {
-  const { name, email, password, about, perksAndBenefits } = req.body;
+  const { name, email, password, about, perksAndBenefits, website } = req.body;
   
   let profilePicture: any = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
 
@@ -32,7 +32,7 @@ export async function createCompany(req: Request, res: Response) {
 
     const isFeatured = false;
 
-    const newCompany = new Company({ name, email, password: hashedPassword, about, perksAndBenefits, featured: isFeatured, profilePicture });
+    const newCompany = new Company({ name, email, password: hashedPassword, about, perksAndBenefits, website, featured: isFeatured, profilePicture });
 
     await newCompany.save();
 
@@ -49,7 +49,7 @@ export async function createCompany(req: Request, res: Response) {
 }
 
 export async function createFeaturedCompany(req: Request, res: Response) {
-  const { name, email, password, about, perksAndBenefits } = req.body;
+  const { name, email, password, about, perksAndBenefits, website } = req.body;
   
   let profilePicture: any = "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1";
 
@@ -72,7 +72,7 @@ export async function createFeaturedCompany(req: Request, res: Response) {
 
     const isFeatured = true;
 
-    const newCompany = new Company({ name, email, password: hashedPassword, about, perksAndBenefits, featured: isFeatured, profilePicture });
+    const newCompany = new Company({ name, email, password: hashedPassword, about, perksAndBenefits, website, featured: isFeatured, profilePicture });
 
     await newCompany.save();
 
