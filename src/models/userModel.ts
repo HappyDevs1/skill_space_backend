@@ -20,6 +20,7 @@ const UserSchema: Schema = new Schema({
     type: String,
     default: "https://i0.wp.com/vssmn.org/wp-content/uploads/2018/12/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png?fit=860%2C681&ssl=1"
   },
+  applications: [{type: mongoose.Types.ObjectId, ref: "Application" }],
   createdAt: { type: Date, default: Date.now},
   updatedAt: { type: Date, default: Date.now}
 });

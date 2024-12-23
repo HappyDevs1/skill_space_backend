@@ -9,7 +9,8 @@ export interface IService extends Document {
   location: "Gauteng" | "Eastern-Cape" | "Mpumalanga" | "Free-State" | "Limpopo" | "North-West" | "Nothern-Cape" | "Western-Cape" | "KwaZulu-Natal" | "Remote";
   level: "Internship" | "Junior" | "Mid-level" | "Senior";
   department: "Finance" | "Technology" | "Healthcare" | "Real-estate" | "Construction";
-  company: mongoose.Types.ObjectId;
+  applications: mongoose.Types.ObjectId[];
+  company: mongoose.Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,6 +22,7 @@ const ServiceSchema: Schema = new Schema({
   location: { type: String, required: true, enum: ["Gauteng", "Eastern-Cape", "Mpumalanga", "Free-State", "Limpopo", "North-West", "Nothern-Cape", "Western-Cape", "KwaZulu-Natal", "Remote"] },
   level: { type: String, required: true, enum: ["Internship", "Junior", "Mid-level", "Senior"]},
   department: { type: String, required: true, enum: ["Finance", "Technology", "Healthcare", "Real-estate", "Construction"]},
+  applications: [{type: mongoose.Types.ObjectId, ref: "Application", required: true }],
   company: { type: mongoose.Types.ObjectId, ref: "Company", required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
