@@ -14,7 +14,11 @@ import blogRoute from "../src/routes/blogRoute";
 const app = express();
 
 // Middleware
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({
+  origin: ['https://skillspacee.netlify.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
