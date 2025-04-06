@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 ![Render Status](https://img.shields.io/badge/Render-Deployed-success)
 
-Live API URL: [https://your-api.onrender.com](https://your-api.onrender.com)
+Live API URL: [https://your-api.onrender.com](https://skill-space-backend.onrender.com)
 
 A brief description of your API and its purpose.
 
@@ -28,27 +28,40 @@ A brief description of your API and its purpose.
 - Node.js
 - Express
 - TypeScript
-- (Database: MongoDB/PostgreSQL/etc.)
-- (Authentication: JWT/Passport/etc.)
+- (Database: MongoDB Atlas)
+- (Authentication: JWT)
+- (Security: Bcrypt)
 - Render (Hosting)
 
 ## API Reference
 
 ### Base URL
-`https://your-api.onrender.com/api/v1`
+`https://skill-space-backend.onrender.com/`
 
 ### Authentication
-[Include authentication method (Bearer Token/JWT/API Key) and example]
+- JWT
+- Bearer Token
 
 ### Endpoints
 
 #### Users
-- `GET /users` - Get all users
-- `POST /users` - Create new user
+- `POST /user/create` - Create a new user
+- `GET /user/users` - Get all users
+- `GET /user/:id` - Get user by id
+- `PUT /user/:id` - Edit user
+- `DELETE /user/:id` - Delete user
+- `POST /user/login` - Login user
 
-#### Auth
-- `POST /auth/login` - User login
-- `POST /auth/register` - User registration
+
+#### Companies
+- `POST /company/create` - Create company
+- `POST /company/create-featured` - Create featured company
+- `GET /company/companies` - Get all companies
+- `GET /company/featured` - Get only featured companies
+- `POST /company/:id` - Find company by id
+- `PUT /company/:id` - Edit company
+- `DELETE /company/:id/delete` - Delete company
+- `POST /company/login` - Login company
 
 [Add your specific endpoints with brief descriptions]
 
