@@ -63,9 +63,9 @@ A brief description of your API and its purpose.
 - `DELETE /company/:id/delete` - Delete company
 - `POST /company/login` - Login company
 
-[Add your specific endpoints with brief descriptions]
+
 
 ### Example Request
 ```http
-GET /api/v1/users
+GET /user/users
 Authorization: Bearer <your-token>
