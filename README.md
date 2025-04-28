@@ -87,7 +87,7 @@ A REST API for a job board platform to interact with managing users, companies, 
 - `DELETE /blog/delete/:id` - Delete a blog
 - `GET /blog/get/:id` - Get blog by id
 
-#### Interested in contributing?
+## Interested in contributing?
 1. Fork the repo
 2. Create your feature branch
 3. Commit your changes
