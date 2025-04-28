@@ -3,9 +3,9 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 ![Render Status](https://img.shields.io/badge/Render-Deployed-success)
 
-Live API URL: [https://your-api.onrender.com](https://skill-space-backend.onrender.com)
+Live BASE API URL: [https://skill-space-backend.onrender.com](https://skill-space-backend.onrender.com)
 
-A brief description of your API and its purpose.
+A REST API for a job board platform to interact with managing users, companies, job listings, job applicants, etc.
 
 ## Table of Contents
 - [Features](#features)
@@ -17,11 +17,11 @@ A brief description of your API and its purpose.
 - [License](#license)
 
 ## Features
-- List key features of your API
-- Authentication/Authorization
-- Rate limiting
-- Error handling
-- Live documentation
+- User Authentication with JWT
+- Password hashing using Bcrypt
+- File uploads for for profile pictures and resume (handled with Multer)
+- Company & User profiles stored in isolation
+- Job applications & Admin dashboard
 - etc.
 
 ## Technologies
@@ -36,7 +36,7 @@ A brief description of your API and its purpose.
 ## API Reference
 
 ### Base URL
-`https://skill-space-backend.onrender.com/`
+`https://skill-space-backend.onrender.com`
 
 ### Authentication
 - JWT
@@ -64,8 +64,32 @@ A brief description of your API and its purpose.
 - `POST /company/login` - Login company
 
 
+#### Jobs
+- `POST /service/:companyId/create` - Create job posting
+- `GET /service/services` - Get all job postings
+- `GET /service/filter` - Filter jobs
+- `GET /service/featured` - Get featured jobs
+- `PUT /service/:id/edit` - Edit job posting
+- `GET /service/:id` - Get job by id
+- `DELETE /service/:id/delete` - Delete job posting
 
-### Example Request
-```http
-GET /user/users
-Authorization: Bearer <your-token>
+#### Job Applications
+- `GET /application/applications` - Get all job applications
+- `POST /application/:id/upload`, - Apply to a job
+- `GET /application/:id/download/cv` - Download applicant resume
+- `GET /application/:id` - Get application by id
+- `PUT /application/:id/edit` - Edit job application
+- `DELETE /application/:id/delete` - Delete job application
+
+#### Blogs
+- `POST /blog/create` - Upload a blog
+- `GET /blog/get/blogs` - Get all blogs
+- `DELETE /blog/delete/:id` - Delete a blog
+- `GET /blog/get/:id` - Get blog by id
+
+#### Interested in contributing?
+1. Fork the repo
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open pull request
