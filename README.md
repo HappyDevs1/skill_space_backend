@@ -1,4 +1,4 @@
-# SkillSpace
+# SkillSpace Backend
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 ![Render Status](https://img.shields.io/badge/Render-Deployed-success)
